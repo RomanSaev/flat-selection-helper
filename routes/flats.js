@@ -3,8 +3,6 @@ const { getAll } = require('../controllers/flats');
 const router = express.Router();
 
 // /api/flats
-router.get('/', function(req, res, next) {
-  res.render('index', getAll);
-});
+router.get('/', getAll);
 
 module.exports = router;

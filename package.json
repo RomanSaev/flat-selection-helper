@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "server": "nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -14,6 +15,7 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "nodemon": "^3.1.9",
     "prisma": "^6.5.0"
   }
 }
