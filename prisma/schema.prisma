@@ -10,3 +10,28 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Flat {
+  id String @id @default(uuid())
+  url String
+  pseudonym String
+  watched Boolean
+  advantage Advantage[]
+  disadvantage Disadvantage[]
+  comment String
+  rating Int
+  cost Int
+  active Boolean
+}
+model Advantage {
+  id String @id @default(uuid())
+  text String
+  flat Flat @relation(fields: [flatId], references: [id])
+  flatId String
+}
+model Disadvantage {
+  id String @id @default(uuid())
+  text String
+  flat Flat @relation(fields: [flatId], references: [id])
+  flatId String
+}
