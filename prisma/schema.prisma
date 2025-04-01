@@ -13,15 +13,15 @@ datasource db {
 
 model Flat {
   id String @id @default(uuid())
-  url String
-  pseudonym String
-  watched Boolean
+  url String?
+  pseudonym String?
+  watched Boolean @default(false)
   advantage Advantage[]
   disadvantage Disadvantage[]
-  comment String
-  rating Int
-  cost Int
-  active Boolean
+  comment String?
+  rating Int?
+  cost Int?
+  active Boolean @default(true)
 }
 model Advantage {
   id String @id @default(uuid())
