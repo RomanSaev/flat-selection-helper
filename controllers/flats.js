@@ -25,7 +25,43 @@ const add = async (req, res, next) => {
     }
 }
 
+const edit = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Некорректный id квартиры'})
+        }
+
+        if (Object.keys(data).length === 0) {
+            return res.status(400).json({ message: 
+            'Отсутствуют параметры квартиры для изменения' })
+        }
+
+        if (data.watched) {
+            data.watched = data.watched === '1';
+        }
+
+        if (data.active) {
+            data.active = data.active === '1';
+        }
+
+        await prisma.flat.update({
+            where: {
+                id: id
+            },
+            data
+        })
+
+        res.status(204).json('ok')
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" }) 
+    }
+}
+
 module.exports = {
     getAll,
     add,
+    edit,
 }
