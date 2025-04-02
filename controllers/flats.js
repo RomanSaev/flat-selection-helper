@@ -60,8 +60,29 @@ const edit = async (req, res, next) => {
     }
 }
 
+const remove = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            res.status(400).json({ message: 'Некорректный id квартиры' })
+        }
+
+        await prisma.flat.delete({
+            where: {
+                id
+            }
+        })
+
+        res.status(204).json('ok');
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
 module.exports = {
     getAll,
     add,
     edit,
+    remove,
 }
