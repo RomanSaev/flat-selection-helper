@@ -15,6 +15,19 @@ const add = async (req, res, next) => {
             })
         }
 
+        if (data.watched) {
+            data.watched = data.watched === '1';
+        }
+        if (data.active) {
+            data.active = data.active === '1';
+        }
+        if(data.rating) {
+            data.rating = parseInt(data.rating)
+        }
+        if(data.cost) {
+            data.cost = parseInt(data.cost)
+        }
+
         const flat = await prisma.flat.create({
             data: data
         })
@@ -42,9 +55,14 @@ const edit = async (req, res, next) => {
         if (data.watched) {
             data.watched = data.watched === '1';
         }
-
         if (data.active) {
             data.active = data.active === '1';
+        }
+        if(data.rating) {
+            data.rating = parseInt(data.rating)
+        }
+        if(data.cost) {
+            data.cost = parseInt(data.cost)
         }
 
         await prisma.flat.update({
