@@ -1,9 +1,14 @@
 const { prisma } = require('../prisma/prisma-client');
 
 
-const getAll = (req, res, next) => {
-    res.status(200)
-    res.send('getAll');
+const getAll = async (req, res, next) => {
+   try {
+       const flats = await prisma.flat.findMany();
+
+       res.status(200).json(flats);
+   } catch (err) {
+        res.status(500).json({message: 'Не удалось получить все квартиры'})
+   }
 }
 
 const add = async (req, res, next) => {
