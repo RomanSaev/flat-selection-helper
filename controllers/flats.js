@@ -3,7 +3,11 @@ const { prisma } = require('../prisma/prisma-client');
 
 const getAll = async (req, res, next) => {
    try {
-       const flats = await prisma.flat.findMany();
+       const flats = await prisma.flat.findMany({
+            include: {
+                advantage: true
+            }
+       });
 
        res.status(200).json(flats);
    } catch (err) {
@@ -39,6 +43,7 @@ const add = async (req, res, next) => {
         res.status(200).json(flat);
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: "Что-то пошло не так" })
     }
 }
@@ -103,9 +108,29 @@ const remove = async (req, res, next) => {
     }
 }
 
+addAdvantage = async (req, res, next) => {
+    const data = req.body;
+    if (!data.flatId) {
+        res.status(400).json({ message: 'Некорректный id квартиры' })
+    }
+
+    try {
+        const property = await prisma.advantage.create({
+            data: {
+                ...data
+            }
+        })
+
+        return res.status(201).json(property);
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
 module.exports = {
     getAll,
     add,
     edit,
     remove,
+    addAdvantage
 }
