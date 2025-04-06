@@ -108,7 +108,7 @@ const remove = async (req, res, next) => {
     }
 }
 
-addAdvantage = async (req, res, next) => {
+const addAdvantage = async (req, res, next) => {
     const data = req.body;
     if (!data.flatId) {
         res.status(400).json({ message: 'Некорректный id квартиры' })
@@ -127,10 +127,31 @@ addAdvantage = async (req, res, next) => {
     }
 }
 
+const removeAdvantage = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+
+        if (!id) {
+            res.status(400).json( {messgae: 'Некорректные параметры' })
+        }
+
+        await prisma.advantage.delete({
+            where: {
+                id
+            }
+        })
+
+        res.status(204).json('ok');
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
 module.exports = {
     getAll,
     add,
     edit,
     remove,
-    addAdvantage
+    addAdvantage,
+    removeAdvantage
 }
