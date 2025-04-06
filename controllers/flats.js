@@ -5,7 +5,8 @@ const getAll = async (req, res, next) => {
    try {
        const flats = await prisma.flat.findMany({
             include: {
-                advantage: true
+                advantage: true,
+                disadvantage: true,
             }
        });
 
@@ -24,7 +25,8 @@ const get = async(req, res, next) => {
                 id
             },
             include: {
-                advantage: true
+                advantage: true,
+                disadvantage: true,
             }
         })
 
@@ -167,6 +169,45 @@ const removeAdvantage = async (req, res, next) => {
     }
 }
 
+const addDisadvantage = async (req, res, next) => {
+    const data = req.body;
+    if (!data.flatId) {
+        res.status(400).json({ message: 'Некорректный id квартиры' })
+    }
+
+    try {
+        const property = await prisma.disadvantage.create({
+            data: {
+                ...data
+            }
+        })
+
+        return res.status(201).json(property);
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
+const removeDisadvantage = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+
+        if (!id) {
+            res.status(400).json( {messgae: 'Некорректные параметры' })
+        }
+
+        await prisma.disadvantage.delete({
+            where: {
+                id
+            }
+        })
+
+        res.status(204).json('ok');
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
 module.exports = {
     getAll,
     get,
@@ -174,5 +215,7 @@ module.exports = {
     edit,
     remove,
     addAdvantage,
-    removeAdvantage
+    removeAdvantage,
+    addDisadvantage,
+    removeDisadvantage
 }
