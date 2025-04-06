@@ -1,9 +1,10 @@
 const express = require('express');
-const { getAll, add, edit, remove, addAdvantage, removeAdvantage } = require('../controllers/flats');
+const { getAll, add, edit, remove, addAdvantage, removeAdvantage, get } = require('../controllers/flats');
 const router = express.Router();
 
 // /api/flats
 router.get('/', getAll);
+router.get('/:id', get);
 router.post('/add', add )
 router.put('/edit/:id', edit )
 router.post('/remove/:id', remove )

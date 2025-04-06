@@ -15,6 +15,26 @@ const getAll = async (req, res, next) => {
    }
 }
 
+const get = async(req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const flat = await prisma.flat.findUnique({
+            where: {
+                id
+            },
+            include: {
+                advantage: true
+            }
+        })
+
+        res.status(200).json(flat)
+
+    } catch (err) {
+        res.status(500).json({ message: "Что-то пошло не так" })
+    }
+}
+
 const add = async (req, res, next) => {
     try {
         const data = req.body;
@@ -149,6 +169,7 @@ const removeAdvantage = async (req, res, next) => {
 
 module.exports = {
     getAll,
+    get,
     add,
     edit,
     remove,
